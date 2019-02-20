@@ -15,7 +15,7 @@ describe('routes : static', () => {
         it('should return status code 200 and string saying "polo"', (done) => {
             request.get(test, (err, res, body) => {
                 expect(res.statusCode).toBe(200);
-                expect(test).toBe('polo');
+                expect(body).toBe('polo');
                 done();
             });
         });
