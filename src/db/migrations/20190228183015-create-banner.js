@@ -23,10 +23,10 @@ module.exports = {
         type: Sequelize.DATE
       },
       topicId: {
-        type: sequelize.INTEGER,
+        type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         references: {
-          model: "Topic",
+          model: "Topics",
           key: "id",
           as: "topicId",
         },

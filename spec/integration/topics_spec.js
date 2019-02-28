@@ -9,7 +9,7 @@ describe("routes : topics", () => {
     beforeEach((done) => {
         this.topic;
         sequelize.sync({force: true}).then((res) => {
-            
+
             Topic.create({
                 title: "JS Frameworks",
                 description: "There is a lot of them"
@@ -24,7 +24,7 @@ describe("routes : topics", () => {
             });
         });
     });
-    
+  
     describe("GET /topics", () => {
         it("should return a status code 200 and all topics", (done) => {
             request.get(base, (err, res, body) => {
