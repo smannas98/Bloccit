@@ -11,7 +11,7 @@ describe('routes : static', () => {
                 expect(body).toContain('Welcome to Bloccit');
             });
         });
-
+        /*
         it('should return status code 200 and string saying "polo"', (done) => {
             request.get(test, (err, res, body) => {
                 expect(res.statusCode).toBe(200);
@@ -19,5 +19,6 @@ describe('routes : static', () => {
                 done();
             });
         });
+        */
     });
 });
