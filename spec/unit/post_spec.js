@@ -6,7 +6,7 @@ describe("Post", () => {
     beforeEach((done) => {
         this.topic;
         this.post;
-        sequelize.sync({force: true}).then((res) => {
+        sequelize.sync({ force: true }).then((res) => {
             Topic.create({
                 title: "Expeditions to Alpha Centauri",
                 description: "A compilation of reports from recent visits to the star system."
@@ -16,7 +16,7 @@ describe("Post", () => {
                 Post.create({
                     title: "My first visit to Proxima Centauri b",
                     body: "I saw some rocks.",
-                    topicID: this.topic.id
+                    topicId: this.topic.id,
                 })
                 .then((post) => {
                     this.post = post;
@@ -34,9 +34,10 @@ describe("Post", () => {
             Post.create({
                 title: "Pros of cryosleep during the long journey",
                 body: "1. Not having to answer the 'are we there yet?' question.",
-                topicId: this.topic.id
+                topicId: this.topic.id,
             })
             .then((post) => {
+              this.post = post;
                 expect(post.title).toBe("Pros of cryosleep during the long journey");
                 expect(post.body).toBe("1. Not having to answer the 'are we there yet?' question.");
                 done();
@@ -46,5 +47,41 @@ describe("Post", () => {
                 done();
             });
         });
+        it("should not create a post with missing title, body, or assigned topic", (done) => {
+          Post.create({
+            title: "Pros of Cryosleep during the long journey"
+          })
+          .then((post) => {
+            done();
+          })
+          .catch((err) => {
+            expect(err.message).toContain("notNull Violation: Post.body cannot be null,");
+            expect(err.message).toContain("notNull Violation: Post.topicId cannot be null");
+            done();
+          });
+        });
+    });
+    describe("#setTopic", () => {
+      it("should associate a topic and a post together", (done) => {
+        Topic.create({
+          title: "Challenges of interstellar travel",
+          description: "1. The Wi-Fi is terrible",
+        })
+        .then((newTopic) => {
+          expect(this.post.topicId).toBe(this.topic.id);
+          this.post.setTopic(newTopic).then((post) => {
+            expect(post.topicId).toBe(newTopic.id);
+            done();
+          });
+        });
+      });
+    });
+    describe("#getTopic", () => {
+      it("should return the associated topic", (done) => {
+        this.post.getTopic().then((associatedTopic) => {
+          expect(associatedTopic.title).toBe("Expeditions to Alpha Centauri");
+          done();
+        });
+      });
     });
 });
