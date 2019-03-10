@@ -9,7 +9,7 @@ describe("Post", () => {
         sequelize.sync({ force: true }).then((res) => {
             Topic.create({
                 title: "Expeditions to Alpha Centauri",
-                description: "A compilation of reports from recent visits to the star system."
+                description: "A compilation of reports from recent visits to the star system.",
             })
             .then((topic) => {
                 this.topic = topic;
@@ -49,7 +49,7 @@ describe("Post", () => {
         });
         it("should not create a post with missing title, body, or assigned topic", (done) => {
           Post.create({
-            title: "Pros of Cryosleep during the long journey"
+            title: "Pros of Cryosleep during the long journey",
           })
           .then((post) => {
             done();
