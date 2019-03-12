@@ -1,16 +1,17 @@
 const request = require("request");
 const server = require("../../src/server");
-const base = "http://localhost:3000/topics/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
+
+const base = "http://localhost:3000/topics/";
 
 describe("routes  : topics", () => {
     beforeEach((done) => {
         this.topic;
-        sequelize.sync({force: true}).then((res) => {
+        sequelize.sync({ force: true }).then((res) => {
             Topic.create({
                 title: "JS Frameworks",
-                description: "There is a lot of them"
+                description: "There is a lot of them",
             })
             .then((topic) => {
                 this.topic = topic;
@@ -19,9 +20,9 @@ describe("routes  : topics", () => {
             .catch((err) => {
                 console.log(err);
                 done();
-            })
-        })
-    })
+            });
+        });
+    });
     describe("GET /topics", () => {
         it("should return a status code 200 and all topics", (done) => {
             request.get(base, (err, res, body) => {
@@ -48,8 +49,28 @@ describe("routes  : topics", () => {
             form: {
                 title: "blink-182 songs",
                 description: "what's your favorite blink-182 song?"
-            }
+            },
         };
+        it("should not create a new post that fails validations", (done) => {
+          const option = {
+            url: `${base}create`,
+            form: {
+              title: "a",
+              body: "b",
+            },
+          };
+          request.post(option, (err, res, body) => {
+            Topic.findOne({ where: { title: "a" }})
+            .then((topic) => {
+              expect(topic).toBeNull();
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done();
+            });
+          });
+        });
         it("should create a new topic and redirect", (done) => {
             request.post(options, (err, res, body) => {
                 Topic.findOne({where: {title: "blink-182 songs"}})
@@ -85,7 +106,7 @@ describe("routes  : topics", () => {
                         expect(err).toBeNull();
                         expect(topics.length).toBe(topicCountBeforeDelete - 1);
                         done();
-                    })
+                    });
                 });
             });
         });
@@ -103,16 +124,16 @@ describe("routes  : topics", () => {
     describe("POST /topics/:id/update", () => {
         it("should update the topic with the given values", (done) => {
             const options = {
-                url: `${base}${this.topic.id}/update`, 
+                url: `${base}${this.topic.id}/update`,
                 form: {
                     title: "JavaScript Frameworks",
-                    description: "There are a lot of them"
-                }
+                    description: "There are a lot of them",
+                },
             };
             request.post(options, (err, res, body) => {
                 expect(err).toBeNull();
                 Topic.findOne({
-                    where: { id: this.topic.id}
+                    where: { id: this.topic.id },
                 })
                 .then((topic) => {
                     expect(topic.title).toBe("JavaScript Frameworks");

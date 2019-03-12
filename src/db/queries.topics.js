@@ -50,7 +50,7 @@ module.exports = {
     },
     updateTopic(id, updatedTopic, callback) {
         return Topic.findById(id).then((topic) => {
-            if(!topic) {
+            if (!topic) {
                 return callback("Topic not found");
             }
             topic.update(updatedTopic, {
