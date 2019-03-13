@@ -3,7 +3,7 @@ const server = require("../../src/server");
 const User = require("../../src/db/models").User;
 const sequelize = require("../../src/db/models/index").sequelize;
 
-const base = "http://localhost:3000/users";
+const base = "http://localhost:3000/users/";
 
 describe("routes : users", () => {
   beforeEach((done) => {
@@ -18,7 +18,7 @@ describe("routes : users", () => {
   });
   describe("GET /users/sign_up", () => {
     it("should render a view with a sign up form", (done) => {
-      request.get(`${base}/sign_up`, (err, res, body) => {
+      request.get(`${base}sign_up`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("Sign up");
         done();
@@ -66,6 +66,15 @@ describe("routes : users", () => {
           console.log(err);
           done();
         });
+      });
+    });
+  });
+  describe("GET /users/sign_in", () => {
+    it("should render a view with a sign in form", (done) => {
+      request.get(`${base}sign_in`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Sign in");
+        done();
       });
     });
   });
