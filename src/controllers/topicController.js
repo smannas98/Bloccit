@@ -25,7 +25,6 @@ module.exports = {
     },
     create(req, res, next) {
       const authorized = new Authorizer(req.user).create();
-      console.log("DEBUG: topicController#create - Authorized?" + authorized);
       if (authorized) {
           let newTopic = {
               title: req.body.title,
@@ -73,7 +72,7 @@ module.exports = {
               console.log("DEBUG: topicController#edit - TOPIC is NULL");
               console.log("\n\n");
               res.redirect(404, "/");
-              end;
+              end
             }
           } else {
             const authorized = new Authorizer(req.user, topic).edit();
