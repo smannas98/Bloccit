@@ -42,10 +42,13 @@ module.exports = {
         return Topic.findById(req.params.id).then((topic) => {
             const authorized = new Authorizer(req.user, topic).destroy();
             if (authorized) {
+                console.log("DEBUG: queries.topics.js#deleteTopic");
                 topic.destroy().then((res) => {
+                    console.log("Destroy Complete. [User Role: " + req.user.role + "]");
                     callback(null, topic);
                 });
             } else {
+                console.log("Destroy FAILED! [User Role: " + req.user.role + "]");
                 req.flash("notice", "You are not authorized to do that.");
                 callback(401);
             }

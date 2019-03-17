@@ -25,6 +25,7 @@ module.exports = {
     },
     create(req, res, next) {
       const authorized = new Authorizer(req.user).create();
+      console.log("DEBUG: topicController#create - Authorized?" + authorized);
       if (authorized) {
           let newTopic = {
               title: req.body.title,
@@ -62,17 +63,27 @@ module.exports = {
     },
     edit(req, res, next) {
         topicQueries.getTopic(req.params.id, (err, topic) => {
-            if (err || topic == null) {
-                res.redirect(404, "/");
+          if (err || topic == null) {
+            if (err) {
+              console.log("DEBUG: topicController#edit - ERROR:");
+              console.log(err);
+              console.log("---------\n\n");
+              res.redirect(404, "/");
             } else {
-                const authorized = new Authorizer(req.user, topic).edit();
-                if (authorized) {
-                  res.render("topics/edit", { topic });
-                } else {
-                  req.flash("You are not authorized to do that.");
-                  res.redirect(`/topics/${req.params.id}`);
-                }
+              console.log("DEBUG: topicController#edit - TOPIC is NULL");
+              console.log("\n\n");
+              res.redirect(404, "/");
+              end;
             }
+          } else {
+            const authorized = new Authorizer(req.user, topic).edit();
+            if (authorized) {
+              res.render("topics/edit", { topic });
+            } else {
+              req.flash("You are not authorized to do that.");
+              res.redirect(`/topics/${req.params.id}`);
+            }
+          }
         });
     },
     update(req, res, next) {

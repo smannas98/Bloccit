@@ -11,6 +11,10 @@ module.exports = class ApplicationPolicy {
   }
 
   _isAdmin() {
+    console.log("DEBUG: Authorizer#_isAdmin");
+    console.log("User: " + this.user);
+    console.log("User Role: " + this.user.role);
+    console.log("--------\n\n");
     return this.user && this.user.role == "admin";
   }
 
