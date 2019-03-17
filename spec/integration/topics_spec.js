@@ -11,17 +11,24 @@ describe("routes : topics", () => {
   beforeEach((done) => { // before each context
     this.topic;   // define variables and bind to context
     sequelize.sync({ force: true }).then(() => {  // clear database
-      Topic.create({
-        title: "JS Frameworks",
-        description: "There is a lot of them"
+      User.create({
+        email: "user@example.com",
+        password: "1234567890",
       })
-      .then((res) => {
-        this.topic = res;  // store resulting topic in context
-        done();
-      })
-      .catch((err) => {
-        console.log(err);
-        done();
+      .then((user) => {
+        this.user = user;
+        Topic.create({
+          title: "JS Frameworks",
+          description: "There is a lot of them"
+        })
+        .then((res) => {
+          this.topic = res;  // store resulting topic in context
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        });
       });
     });
   });
@@ -56,6 +63,7 @@ describe("routes : topics", () => {
 
       it("should render a view with a new topic form", (done) => {
         request.get(`${base}new`, (err, res, body) => {
+          console.log(body);
           expect(err).toBeNull();
           expect(body).toContain("New Topic");
           done();
