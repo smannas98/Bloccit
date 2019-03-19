@@ -34,13 +34,14 @@ describe("routes  : topics", () => {
         .then((user) => {
           this.user = user;
           request.get({
-            url: "http://localhost:3000/auth/fake",
+            url: `"http://localhost:3000/auth/fake"`,
             form: {
               role: user.role,
               userId: user.id,
               email: user.email,
             },
           }, (err, res, body) => {
+            console.log(err, res, body);
             done();
           });
         });
@@ -58,8 +59,9 @@ describe("routes  : topics", () => {
       describe("GET /topics/new", () => {
           it("should render a new topics form", (done) => {
               request.get(`${base}new`, (err, res, body) => {
+                  console.log(body);
                   expect(err).toBeNull();
-                  expect(body).toContain("New Topic");
+                  expect(body.indexOf('New Topic') !== -1).toBe(true);
                   done();
               });
           });
