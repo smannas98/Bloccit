@@ -155,7 +155,7 @@ describe("routes  : topics", () => {
         });
       });
       describe("GET /topics", () => {
-          it("should return a status code 200 and all topics", (done) => {
+          it("should return all topics", (done) => {
               request.get(base, (err, res, body) => {
                   expect(err).toBeNull();
                   expect(body).toContain("Topics");
@@ -165,10 +165,10 @@ describe("routes  : topics", () => {
           });
       });
       describe("GET /topics/new", () => {
-          it("should render a new topics form", (done) => {
+          it("should redirect to topics view", (done) => {
               request.get(`${base}new`, (err, res, body) => {
                   expect(err).toBeNull();
-                  expect(body).toContain("New Topic");
+                  expect(body).toContain("Topics");
                   done();
               });
           });
@@ -181,12 +181,11 @@ describe("routes  : topics", () => {
                   description: "what's your favorite blink-182 song?",
               },
           };
-          it("should create a new topic and redirect", (done) => {
+          it("should not create a new topic", (done) => {
               request.post(options, (err, res, body) => {
                   Topic.findOne({ where: { title: "blink-182 songs" } })
                   .then((topic) => {
-                      expect(topic.title).toBe("blink-182 songs");
-                      expect(topic.description).toBe("what's your favorite blink-182 song?");
+                      expect(topic).toBeNull();
                       done();
                   })
                   .catch((err) => {
@@ -206,14 +205,13 @@ describe("routes  : topics", () => {
           });
       });
       describe("POST /topics/:id/destroy", () => {
-          it("should delete the topic with the associated id", (done) => {
+          it("should not delete the topic with the associated id", (done) => {
               Topic.all().then((topics) => {
                   const topicCountBeforeDelete = topics.length;
                   expect(topicCountBeforeDelete).toBe(1);
                   request.post(`${base}${this.topic.id}/destroy`, (err, res, body) => {
                       Topic.all().then((topics) => {
-                          expect(err).toBeNull();
-                          expect(topics.length).toBe(topicCountBeforeDelete - 1);
+                          expect(topics.length).toBe(topicCountBeforeDelete);
                           done();
                       });
                   });
@@ -221,17 +219,17 @@ describe("routes  : topics", () => {
           });
       });
       describe("GET /topics/:id/edit", () => {
-          it("should render a view with an edit topic form", (done) => {
+          it("should not render a view with an edit topic form", (done) => {
               request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
                   expect(err).toBeNull();
-                  expect(body).toContain("Edit Topic");
+                  expect(body).not.toContain("Edit Topic");
                   expect(body).toContain("JS Frameworks");
                   done();
               });
           });
       });
       describe("POST /topics/:id/update", () => {
-          it("should update the topic with the given values", (done) => {
+          it("should not update the topic with the given values", (done) => {
               const options = {
                   url: `${base}${this.topic.id}/update`,
                   form: {
@@ -242,10 +240,10 @@ describe("routes  : topics", () => {
               request.post(options, (err, res, body) => {
                   expect(err).toBeNull();
                   Topic.findOne({
-                      where: { id: this.topic.id },
+                      where: { id: 1 },
                   })
                   .then((topic) => {
-                      expect(topic.title).toBe("JavaScript Frameworks");
+                      expect(topic.title).toBe("JS Frameworks");
                       done();
                   });
               });
