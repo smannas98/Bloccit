@@ -8,9 +8,9 @@ module.exports = {
     const errors = req.validationErrors();
     if (errors) {
       req.flash("error", errors);
-      return res.redirect(303, req.headers.referer);
+      res.redirect(303, req.headers.referer);
     } else {
-      return next();
+      next();
     }
   },
   validateUsers(req, res, next) {
@@ -22,9 +22,9 @@ module.exports = {
     const errors = req.validationErrors();
     if (errors) {
       req.flash("error", errors);
-      return res.redirect(req.headers.referer);
+      res.redirect(req.headers.referer);
     } else {
-      return next();
+      next();
     }
   },
 };
