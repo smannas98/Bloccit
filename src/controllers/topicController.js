@@ -77,6 +77,7 @@ module.exports = {
           } else {
             const authorized = new Authorizer(req.user, topic).edit();
             if (authorized) {
+              console.log("DEBUG: topicController.edit user Authorized");
               res.render("topics/edit", { topic });
             } else {
               req.flash("You are not authorized to do that.");

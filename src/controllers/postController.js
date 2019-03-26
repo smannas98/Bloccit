@@ -52,7 +52,6 @@ module.exports = {
   },
   edit(req, res, next) {
     postQueries.getPost(req.params.id, (err, post) => {
-      console.log('DEBUG: postController.edit getPost method firing');
       if (err || post == null) {
         console.log('DEBUG: postController.edit error');
         res.redirect(404, '/');
