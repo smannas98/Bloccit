@@ -14,6 +14,14 @@ module.exports = class ApplicationPolicy {
     return this.user && this.user.role == "admin";
   }
 
+  _isGuest() {
+    return this.user && this.user.role == 'guest';
+  }
+
+  _isMember() {
+    return this.user && this.user.role == 'member';
+  }
+
   // #3
   new() {
     return this.user != null;
