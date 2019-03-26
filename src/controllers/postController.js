@@ -52,13 +52,18 @@ module.exports = {
   },
   edit(req, res, next) {
     postQueries.getPost(req.params.id, (err, post) => {
+      console.log('DEBUG: postController.edit getPost method firing');
       if (err || post == null) {
+        console.log('DEBUG: postController.edit error');
         res.redirect(404, '/');
       } else {
         const authorized = new Authorizer(req.user).edit();
+        console.log('DEBUG: postController.edit fetch Authorizer');
         if (authorized) {
+          console.log('DEBUG: postController.edit user authorized');
           res.render('posts/edit', { post });
         } else {
+          console.log('DEBUG: postController.edit not authorized');
           req.flash("you are not authorized to do that");
           res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
         }
