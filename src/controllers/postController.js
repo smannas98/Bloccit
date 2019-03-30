@@ -22,9 +22,9 @@ module.exports = {
       };
       postQueries.addPost(newPost, (err, post) => {
         if (err) {
-          res.redirect(500, "/posts/new");
+          res.redirect("/posts/new");
         } else {
-          res.redirect(303, `/topics/${newPost.topicId}/posts/${post.id}`);
+          res.redirect(`/topics/${newPost.topicId}/posts/${post.id}`);
         }
       });
     } else {
@@ -35,7 +35,7 @@ module.exports = {
   show(req, res, next) {
     postQueries.getPost(req.params.id, (err, post) => {
       if (err || post == null) {
-        res.redirect(404, "/");
+        res.redirect("/");
       } else {
         res.render("posts/show", { post });
       }
@@ -44,9 +44,9 @@ module.exports = {
   destroy(req, res, next) {
     postQueries.deletePost(req, (err, post) => {
       if (err) {
-        res.redirect(err, `/topics/${req.params.topicId}/posts/${req.params.id}`);
+        res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
       } else {
-        res.redirect(303, `/topics/${req.params.topicId}`);
+        res.redirect(`/topics/${req.params.topicId}`);
       }
     });
   },
@@ -54,7 +54,7 @@ module.exports = {
     postQueries.getPost(req.params.id, (err, post) => {
       if (err || post == null) {
         console.log('DEBUG: postController.edit error');
-        res.redirect(404, '/');
+        res.redirect('/');
       } else {
         const authorized = new Authorizer(req.user).edit();
         console.log('DEBUG: postController.edit fetch Authorizer');
@@ -72,7 +72,7 @@ module.exports = {
   update(req, res, next) {
     postQueries.updatePost(req, req.body, (err, post) => {
       if (err || post == null) {
-        res.redirect(404, `/topics/${req.params.topicId}/posts/${req.params.id}/edit`);
+        res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}/edit`);
       } else {
         res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
       }

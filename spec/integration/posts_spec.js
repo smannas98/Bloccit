@@ -57,9 +57,10 @@ describe('routes : posts', () => {
     describe('GET /topics/:topicId/posts/new', () => {
       it('should redirect to post view', (done) => {
         request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
+          //console.log(body);
           expect(err).toBeNull();
           expect(body).not.toContain('New Post');
-          expect(body).toContain('snowball fighting');
+          expect(body).toContain('Snowball fighting');
           done();
         });
       });
@@ -90,7 +91,7 @@ describe('routes : posts', () => {
       it('should render a view with the selected post', (done) => {
         request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain('snowball fighting');
+          expect(body).toContain('Snowball fighting');
           done();
         });
       });
@@ -99,9 +100,10 @@ describe('routes : posts', () => {
       it('should not delete the post with the associated ID', (done) => {
         expect(this.post.id).toBe(1);
         request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+          console.log(`body`, body);
           Post.findById(1).then((post) => {
             expect(err).toBeNull();
-            expect(body).toContain('so much snow!');
+            expect(body).toContain('Found. Redirecting to /topics/1/posts/1');
             done();
           });
         });
@@ -112,13 +114,13 @@ describe('routes : posts', () => {
         request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).not.toContain("Edit Post");
-          expect(body).toContain("snowball fighting");
+          expect(body).toContain("Snowball fighting");
           done();
         });
       });
     });
     describe('POST /topics/:topicId/posts/:id/update', () => {
-      it('should update the post with the given values', (done) => {
+      it('should not update the post with the given values', (done) => {
         const options = {
           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
           form: {
@@ -132,7 +134,7 @@ describe('routes : posts', () => {
             where: { id: this.post.id },
           })
           .then((post) => {
-            expect(post.title).toBe("snowball fighting");
+            expect(post.title).toBe("Snowball fighting");
             done();
           });
         });
@@ -219,7 +221,7 @@ describe('routes : posts', () => {
       it('should render a view with the selected post', (done) => {
         request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain('snowball fighting');
+          expect(body).toContain('Snowball fighting');
           done();
         });
       });
@@ -241,7 +243,7 @@ describe('routes : posts', () => {
         request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain("Edit Post");
-          expect(body).toContain("snowball fighting");
+          expect(body).toContain("Snowball fighting");
           done();
         });
       });
