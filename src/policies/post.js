@@ -14,10 +14,10 @@ module.exports = class PostPolicy extends ApplicationPolicy {
   }
 
   update() {
-    this.edit();
+    return this.edit();
   }
 
   destroy() {
-    this.update();
+    return this.update();
   }
 };

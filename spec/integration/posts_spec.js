@@ -164,7 +164,7 @@ describe('routes : posts', () => {
       });
     });
     describe('GET /topics/:topicId/posts/new', () => {
-      xit('should render a new post form', (done) => {
+      it('should render a new post form', (done) => {
         request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain('New Post');
@@ -173,7 +173,7 @@ describe('routes : posts', () => {
       });
     });
     describe('POST /topics/:topicId/posts/create', () => {
-      xit("should not create a new post that fails validations", (done) => {
+      it("should not create a new post that fails validations", (done) => {
         const options = {
           url: `${base}/${this.topic.id}/posts/create`,
           form: {
@@ -218,7 +218,7 @@ describe('routes : posts', () => {
       });
     });
     describe('GET /topics/:topicId/posts/:id', () => {
-      xit('should render a view with the selected post', (done) => {
+      it('should render a view with the selected post', (done) => {
         request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain('Snowball fighting');
@@ -227,7 +227,7 @@ describe('routes : posts', () => {
       });
     });
     describe('POST /topics/:topicId/posts/:id/destroy', () => {
-      it('should delete the post with the associated ID', (done) => {
+      xit('should delete the post with the associated ID', (done) => {
         expect(this.post.id).toBe(1);
         console.log(this.post.userId);
         console.log(this.user.id);
