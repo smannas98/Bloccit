@@ -231,6 +231,7 @@ describe('routes : posts', () => {
         expect(this.post.id).toBe(1);
         request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
           Post.findById(1).then((post) => {
+            console.log(post);
             expect(err).toBeNull();
             expect(post).toBeNull();
             done();
