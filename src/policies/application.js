@@ -11,6 +11,12 @@ module.exports = class ApplicationPolicy {
   }
 
   _isOwner() {
+    console.log("DEBUG: _isOwner");
+    console.log("Record:");
+    console.log(this.record);
+    console.log("\nUser:");
+    console.log(this.user);
+    console.log("\n-------------\n\n");
     return this.record && this.user && this.record.userId == this.user.id;
   }
 
@@ -24,7 +30,7 @@ module.exports = class ApplicationPolicy {
 
   // #3
   new() {
-    return !!this.user;
+    return this.user != null;
   }
 
   create() {
