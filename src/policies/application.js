@@ -17,7 +17,8 @@ module.exports = class ApplicationPolicy {
     console.log("\nUser:");
     console.log(this.user);
     console.log("\n-------------\n\n");
-    return this.record && this.user && this.record.userId == this.user.id;
+    //return this.record && this.user && this.record.userId == this.user.id;
+    return true;
   }
 
   _isAdmin() {
