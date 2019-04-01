@@ -55,7 +55,7 @@ describe('routes : posts', () => {
       );
     });
     describe('GET /topics/:topicId/posts/new', () => {
-      xit('should redirect to post view', (done) => {
+      it('should redirect to post view', (done) => {
         request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
           //console.log(body);
           expect(err).toBeNull();
@@ -66,7 +66,7 @@ describe('routes : posts', () => {
       });
     });
     describe('POST /topics/:topicId/posts/create', () => {
-      xit('should not create a new post and redirect', (done) => {
+      it('should not create a new post and redirect', (done) => {
         const options = {
           url: `${base}/${this.topic.id}/posts/create`,
           form: {
@@ -88,7 +88,7 @@ describe('routes : posts', () => {
       });
     });
     describe('GET /topics/:topicId/posts/:id', () => {
-      xit('should render a view with the selected post', (done) => {
+      it('should render a view with the selected post', (done) => {
         request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain('Snowball fighting');
@@ -97,7 +97,7 @@ describe('routes : posts', () => {
       });
     });
     describe('POST /topics/:topicId/posts/:id/destroy', () => {
-      xit('should not delete the post with the associated ID', (done) => {
+      it('should not delete the post with the associated ID', (done) => {
         expect(this.post.id).toBe(1);
         request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
           console.log(`body`, body);
@@ -110,7 +110,7 @@ describe('routes : posts', () => {
       });
     });
     describe('GET /topics/:topicId/posts/:id/edit', () => {
-      xit('should redirect to post view', (done) => {
+      it('should redirect to post view', (done) => {
         request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).not.toContain("Edit Post");
@@ -120,7 +120,7 @@ describe('routes : posts', () => {
       });
     });
     describe('POST /topics/:topicId/posts/:id/update', () => {
-      xit('should not update the post with the given values', (done) => {
+      it('should not update the post with the given values', (done) => {
         const options = {
           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
           form: {
@@ -193,7 +193,7 @@ describe('routes : posts', () => {
           });
         });
       });
-      xit('should create a new post and redirect', (done) => {
+      it('should create a new post and redirect', (done) => {
         const options = {
           url: `${base}/${this.topic.id}/posts/create`,
           form: {
@@ -227,7 +227,7 @@ describe('routes : posts', () => {
       });
     });
     describe('POST /topics/:topicId/posts/:id/destroy', () => {
-      xit('should delete the post with the associated ID', (done) => {
+      it('should delete the post with the associated ID', (done) => {
         expect(this.post.id).toBe(1);
         console.log(this.post.userId);
         console.log(this.user.id);
@@ -243,7 +243,7 @@ describe('routes : posts', () => {
       });
     });
     describe('GET /topics/:topicId/posts/:id/edit', () => {
-      xit('should render a view with an edit post form', (done) => {
+      it('should render a view with an edit post form', (done) => {
         request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain("Edit Post");
@@ -253,7 +253,7 @@ describe('routes : posts', () => {
       });
     });
     describe('POST /topics/:topicId/posts/:id/update', () => {
-      xit('should return a status code 302', (done) => {
+      it('should return a status code 302', (done) => {
         request.post({
           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
           form: {
@@ -265,7 +265,7 @@ describe('routes : posts', () => {
           done();
         });
       });
-      xit('should update the post with the given values', (done) => {
+      it('should update the post with the given values', (done) => {
         const options = {
           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
           form: {
