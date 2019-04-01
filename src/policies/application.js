@@ -13,12 +13,12 @@ module.exports = class ApplicationPolicy {
   _isOwner() {
     console.log("DEBUG: _isOwner");
     console.log("Record:");
-    console.log(this.record);
+    console.log(this.record.userId);
     console.log("\nUser:");
-    console.log(this.user);
+    console.log(this.user.id);
     console.log("\n-------------\n\n");
-    //return this.record && this.user && this.record.userId == this.user.id;
-    return true;
+    return this.record && this.user && this.record.userId == this.user.id;
+    //return true;
   }
 
   _isAdmin() {

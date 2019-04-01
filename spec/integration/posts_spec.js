@@ -19,6 +19,7 @@ describe('routes : posts', () => {
       })
       .then((user) => {
         this.user = user;
+        console.log(this.user.id);
         Topic.create({
           title: "Winter Games",
           description: "Post your Winter Games stories.",
@@ -149,6 +150,7 @@ describe('routes : posts', () => {
         role: "member",
       })
       .then((user) => {
+        console.log(this.user.id);
         request.get({
           url: "http://localhost:3000/auth/fake",
           form: {
