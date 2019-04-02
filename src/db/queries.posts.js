@@ -42,6 +42,7 @@ module.exports = {
       }
       const authorized = new Authorizer(req.user, post).update();
       if (authorized) {
+        console.log("DEBUG: postController.update -> user is authorized");
         post.update(updatedPost, {
           fields: Object.keys(updatedPost),
         })
@@ -52,6 +53,7 @@ module.exports = {
           callback(err);
         });
       } else {
+        console.log("DEBUG: postController.update -> user is not authorized");
         req.flash("notice", "you are not authorized to do that");
         callback("forbidden");
       }
