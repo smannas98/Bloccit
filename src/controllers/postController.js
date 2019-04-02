@@ -53,16 +53,21 @@ module.exports = {
   edit(req, res, next) {
     postQueries.getPost(req.params.id, (err, post) => {
       if (err || post == null) {
-        console.log('DEBUG: postController.edit error');
+        console.log('DEBUG: postController.edit -> error on first if statement');
+        console.log("\n------------------\n\n");
+        console.log(err);
+        console.log("\n------------------\n\n");
         res.redirect('/');
       } else {
         const authorized = new Authorizer(req.user).edit();
-        console.log('DEBUG: postController.edit fetch Authorizer');
+        console.log("DEBUG: postController.edit -> user id = " + req.user.id);
+        console.log("DEBUG: postController.edit -> post userId = " + req.params.userId);
+        console.log('DEBUG: postController.edit -> fetch Authorizer');
         if (authorized) {
-          console.log('DEBUG: postController.edit user authorized');
+          console.log('DEBUG: postController.edit -> user authorized');
           res.render('posts/edit', { post });
         } else {
-          console.log('DEBUG: postController.edit not authorized');
+          console.log('DEBUG: postController.edit -> not authorized');
           req.flash("you are not authorized to do that");
           res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
         }
