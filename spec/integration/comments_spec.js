@@ -211,4 +211,134 @@ describe("routes : comments", () => {
 
   });
 
+  describe("signed in user tries to delete comment of another signed in user", () => {
+
+    beforeEach((done) => {
+      request.get({
+        url: "http://localhost:3000/auth/fake",
+        form: {
+          role: "member",
+          userId: 5,
+        },
+      },
+        (err, res, body) => {
+          done();
+      });
+    });
+
+    it("should not delete the comment", (done) => {
+      Comment.all()
+      .then((comments) => {
+        const commentCountBeforeDelete = comments.length;
+
+          expect(commentCountBeforeDelete).toBe(1);
+
+          User.create({
+            email: "email@email.com",
+            password: "123456",
+            role: "member",
+          })
+          .then((user) => {
+            this.user = user;
+
+            request.post(
+              `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+              (err, res, body) => {
+              console.log("DEBUG: unauthorized destroy spec, post delete error -> " + err);
+              console.log("\n--------------------------\n\n");
+              console.log("DEBUG: unauthorized destroy spec, post delete statusCode -> " + res.statusCode);
+              console.log("\n--------------------------\n\n");
+              expect(res.statusCode).toBe(401);
+              Comment.all()
+              .then((comments) => {
+                expect(err).toBeNull();
+                expect(comments.length).toBe(commentCountBeforeDelete);
+                done();
+              })
+              .catch((err) => {
+                console.log("\n--------------------------\n\n");
+                console.log("DEBUG: unauthorized destroy spec, post delete Comment.all -> " + err);
+                console.log("\n--------------------------\n\n");
+                done();
+              });
+            });
+          })
+          .catch((err) => {
+            console.log("\n--------------------------\n\n");
+            console.log("DEBUG: unauthorized destroy spec, spec User.create -> " + err);
+            console.log("\n--------------------------\n\n");
+            done();
+          });
+      })
+      .catch((err) => {
+        console.log("\n--------------------------\n\n");
+        console.log("DEBUG: unauthorized destroy spec, before delete Comment.all -> " + err);
+        console.log("\n--------------------------\n\n");
+        done();
+      });
+    });
+  });
+
+  describe("admin user tries to delete comment of another signed in user", () => {
+
+    beforeEach((done) => {
+      User.create({
+        email: "admin@email.com",
+        password: "123456",
+        role: "admin",
+      })
+      .then((user) => {
+        request.get({
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: user.role,
+            userId: user.id,
+            email: user.email,
+          }
+        },
+          (err, res, body) => {
+            done();
+          }
+        );
+      });
+    });
+
+    it("should delete the comment", (done) => {
+      Comment.all()
+      .then((comments) => {
+        const commentCountBeforeDelete = comments.length;
+
+        expect(commentCountBeforeDelete).toBe(1);
+
+        request.post(`${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+        (err, res, body) => {
+          console.log("DEBUG: admin destroy spec, post delete error -> " + this.user.role);
+          console.log("\n--------------------------\n\n");
+          console.log("DEBUG: admin destroy spec, post delete statusCode -> " + res.statusCode);
+          console.log("\n--------------------------\n\n");
+          expect(res.statusCode).toBe(302);
+
+          Comment.all()
+          .then((comments) => {
+            expect(err).toBeNull();
+            expect(comments.length).toBe(commentCountBeforeDelete - 1);
+            done();
+          })
+          .catch((err) => {
+            console.log("\n--------------------------\n\n");
+            console.log("DEBUG: admin destroy spec, post delete Comment.all -> " + err);
+            console.log("\n--------------------------\n\n");
+            done();
+          });
+        });
+      })
+      .catch((err) => {
+        console.log("\n--------------------------\n\n");
+        console.log("DEBUG: admin destroy spec, before delete Comment.all -> " + err);
+        console.log("\n--------------------------\n\n");
+        done();
+      });
+    });
+  });
+
 });
