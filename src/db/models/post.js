@@ -38,13 +38,12 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
   Post.prototype.getPoints = function () {
-    if (this.votes.length === 0) {
-      return 0;
-    } else {
-      return this.votes
-        .map((v) => { return v.value })
-        .reduce((prev, next) => { return prev + next });
-    };
+    const votes = this.getVotes();
+
+    if (votes.length === 0) return 0;
+    return votes
+      .map((v) => { return v.value })
+      .reduce((prev, next) => { return prev + next });
   };
   return Post;
 };
