@@ -143,12 +143,34 @@ describe("Post", () => {
     });
     describe('#hasUpvoteFor()', () => {
       it("should return true if user with matching userId has an upvote", (done) => {
-
+        Vote.create({
+          value: 1,
+          userId: this.user.id,
+          postId: this.post.id,
+        })
+        .then((vote) => {
+          this.post.hasUpvoteFor(this.user.id)
+          .then((res) => {
+            expect(res).toBe(true);
+            done();
+          });
+        });
       });
     });
     describe('#hasDownvoteFor()', () => {
       it("should return true if user with matching userId has a downvote", (done) => {
-
+        Vote.create({
+          value: -1,
+          userId: this.user.id,
+          postId: this.post.id,
+        })
+        .then((vote) => {
+          this.post.hasDownvoteFor(this.user.id)
+          .then((res) => {
+            expect(res).toBe(true);
+            done();
+          });
+        });
       });
     });
 });
