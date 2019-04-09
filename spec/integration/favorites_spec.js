@@ -76,7 +76,7 @@ describe("routes : favorites", () => {
 
     describe("POST /topics/:topicId/posts/:postId/favorites/create", () => {
 
-      xit("should not create a new favorite", (done) => {
+      it("should not create a new favorite", (done) => {
         const options = {
           url: `${base}${this.topic.id}/posts/${this.post.id}/favorites/create`
         };
@@ -123,7 +123,7 @@ describe("routes : favorites", () => {
 
     describe("POST /topics/:topicId/posts/:postId/favorites/create", () => {
 
-      xit("should create a favorite", (done) => {
+      it("should create a favorite", (done) => {
         const options = {
           url: `${base}${this.topic.id}/posts/${this.post.id}/favorites/create`
         };
