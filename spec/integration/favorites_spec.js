@@ -76,7 +76,7 @@ describe("routes : favorites", () => {
 
     describe("POST /topics/:topicId/posts/:postId/favorites/create", () => {
 
-      it("should not create a new favorite", (done) => {
+      xit("should not create a new favorite", (done) => {
         const options = {
           url: `${base}${this.topic.id}/posts/${this.post.id}/favorites/create`
         };
@@ -123,7 +123,7 @@ describe("routes : favorites", () => {
 
     describe("POST /topics/:topicId/posts/:postId/favorites/create", () => {
 
-      it("should create a favorite", (done) => {
+      xit("should create a favorite", (done) => {
         const options = {
           url: `${base}${this.topic.id}/posts/${this.post.id}/favorites/create`
         };
@@ -162,11 +162,11 @@ describe("routes : favorites", () => {
         request.post(options, (err, res, body) => {
           this.post.getFavorites()
           .then((favorites) => {
-            console.log(favorites);
+            //console.log(favorites);
             const favorite = favorites[0];
             favCountBeforeDelete = favorites.length;
 
-            request.post(`${base}${this.topic.id}/posts/${this.post.id}/favorites/${this.favorite.id}/destroy`,
+            request.post(`${base}${this.topic.id}/posts/${this.post.id}/favorites/${favorite.id}/destroy`,
               (err, res, body) => {
                 this.post.getFavorites()
                 .then((favorites) => {

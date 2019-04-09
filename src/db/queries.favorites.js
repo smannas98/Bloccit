@@ -25,14 +25,18 @@ module.exports = {
       }
       const authorized = new Authorizer(req.user, favorite).destroy();
       if (authorized) {
+        console.log("DEBUG: queries.favorites.deleteFavorite -> is authorized");
         Favorite.destroy({ where: { id } })
         .then((deletedRecordsCount) => {
+          console.log("DEBUG: queries.favorites.deleteFavorite -> favorite deleted.");
+          console.log(deletedRecordsCount.id);
           callback(null, deletedRecordsCount);
         })
         .catch((err) => {
           callback(err);
         });
       } else {
+        console.log("DEBUG: queries.favorites.deleteFavorite -> is not authorized");
         req.flash("notice", "You are not authorized to do that.");
         callback(401);
       }
